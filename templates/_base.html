@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ title or "CMC Vídeo | EAD" }}</title>
+    <meta
+      name="description"
+      content="{{ description or 'Realize o sonho de comunicar com qualidade em SP: EAD, podcasts e vídeos personalizados.' }}"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}?v=41" />
+    <script type="text/javascript">
+      setTimeout(function () {
+        var a = document.createElement("script");
+        var b = document.getElementsByTagName("script")[0];
+        a.src =
+          document.location.protocol +
+          "//css.kaizenseo.com.br/cdn/acss.js?" +
+          Math.floor(new Date().getTime() / 3600000);
+        a.async = true;
+        a.type = "text/javascript";
+        b.parentNode.insertBefore(a, b);
+      }, 1);
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="brand">
+          <div class="brand-mark">
+            <img src="{{ url_for('static', path='img/logo-cmc.png') }}" alt="CMC Vídeo" />
+          </div>
+        </div>
+
+        <nav class="header-actions" aria-label="Ações principais"></nav>
+      </div>
+    </header>
+
+    <main id="conteudo">
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-core">
+          <div class="footer-col footer-col--logo">
+            <div class="footer-brand">
+              <img
+                class="footer-logo"
+                src="{{ url_for('static', path='img/logo-cmc.png') }}"
+                alt="CMC Vídeo"
+                width="160"
+                height="80"
+                decoding="async"
+              />
+            </div>
+          </div>
+
+          <div class="footer-col footer-col--phone">
+            <a class="footer-phone" href="tel:+551151960058">
+              <span class="footer-icon footer-icon--phone" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                </svg>
+              </span>
+              <span class="footer-phone-body">
+                <span class="footer-section-label">Contato</span>
+                <span class="footer-phone-num">(11) 5196-0058</span>
+              </span>
+            </a>
+          </div>
+
+          <div class="footer-col footer-col--address">
+            <div class="footer-address-stack">
+              <div class="footer-address-wrap">
+                <span class="footer-icon footer-icon--pin" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                    <circle cx="12" cy="10" r="3" />
+                  </svg>
+                </span>
+                <div class="footer-address-text">
+                  <p class="footer-section-label">Endereço:</p>
+                  <address class="footer-address muted">
+                    Rua Cubatão, 929 - Vila Mariana, São Paulo - SP - CEP: 04013-043
+                  </address>
+                </div>
+              </div>
+              <div class="footer-map-slot">
+                <div class="footer-map">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3656.6755189509563!2d-46.64432952466936!3d-23.580094578786962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59855fa46503%3A0x5ff1f39ef9613a8b!2sR.%20Cubat%C3%A3o%2C%20929%20-%20Vila%20Mariana%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2004013-043!5e0!3m2!1spt-BR!2sbr!4v1774480756198!5m2!1spt-BR!2sbr"
+                    width="220"
+                    height="110"
+                    style="border: 0"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    title="Localização da CMC Vídeo no Google Maps"
+                  ></iframe>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="muted footer-legal">
+          <strong>Fique tranquilo, seus dados estão seguros!</strong>
+          LGPD - Lei Geral de Proteção de Dados Pessoais
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

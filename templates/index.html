@@ -1,0 +1,781 @@
+{% extends "_base.html" %}
+{% set title = "CMC Vídeo | EAD" %}
+{% set description = "Do seu jeito, com a nossa estrutura. Gravação de aulas EAD, podcasts, vídeos e transmissões ao vivo em SP." %}
+
+{% block content %}
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="hero-bg-image"></div>
+      <div class="hero-bg-overlay"></div>
+    </div>
+
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <h1>Do seu jeito, com a nossa estrutura</h1>
+        <p class="lead">
+          Realize o sonho de comunicar com qualidade em SP: EAD, podcasts e vídeos personalizados.
+        </p>
+
+        <div class="hero-cta">
+          <button class="btn btn-primary btn-block" type="button" data-modal-open="lead-modal">
+            QUERO GRAVAR
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-panel-spacer" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <section class="modal" id="lead-modal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-backdrop" data-modal-close></div>
+    <div class="modal-dialog" role="document">
+      <button class="modal-close" type="button" aria-label="Fechar" data-modal-close>&times;</button>
+
+      <div class="modal-dialog__header">
+        <h2 id="orcamento">Solicite seu orçamento</h2>
+        <p class="modal-dialog__lead muted">
+          Ao preencher o formulário, prometemos não utilizar suas informações de contato para enviar qualquer tipo de SPAM.
+        </p>
+      </div>
+
+      <form class="form modal-form" method="post" action="{{ url_for('form_post') }}">
+        <label>
+          <span>Nome</span>
+          <input name="name" type="text" autocomplete="name" required />
+        </label>
+
+        <label>
+          <span>Telefone</span>
+          <input name="phone" type="tel" autocomplete="tel" required />
+        </label>
+
+        <label>
+          <span>E-mail</span>
+          <input name="email" type="email" autocomplete="email" required />
+        </label>
+
+        <label>
+          <span>Tipo de serviço</span>
+          <select name="service_type" required>
+            <option value="" selected disabled>Selecione uma opção</option>
+            <option value="Vídeo aulas">Vídeo aulas</option>
+            <option value="Podcast">Podcast</option>
+            <option value="Transmissão ao vivo">Transmissão ao vivo</option>
+            <option value="Locação de estúdio">Locação de estúdio</option>
+            <option value="Produção de vídeo">Produção de vídeo</option>
+          </select>
+        </label>
+
+        <button class="btn btn-primary btn-block" type="submit">Enviar</button>
+      </form>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      function initLeadModal() {
+        const modal = document.getElementById("lead-modal");
+        if (!modal) return;
+
+        const openButtons = document.querySelectorAll("[data-modal-open='lead-modal']");
+        const closeElements = modal.querySelectorAll("[data-modal-close]");
+
+        function openModal() {
+          modal.setAttribute("aria-hidden", "false");
+          document.body.classList.add("no-scroll");
+        }
+
+        function closeModal() {
+          modal.setAttribute("aria-hidden", "true");
+          document.body.classList.remove("no-scroll");
+        }
+
+        openButtons.forEach(function (btn) {
+          btn.addEventListener("click", openModal);
+        });
+        closeElements.forEach(function (el) {
+          el.addEventListener("click", closeModal);
+        });
+
+        document.addEventListener("keydown", function (ev) {
+          if (ev.key === "Escape") closeModal();
+        });
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initLeadModal);
+      } else {
+        initLeadModal();
+      }
+    })();
+  </script>
+
+  <section class="section section-highlight">
+    <div class="container">
+      <div class="section-head">
+        <h2>Conheça a CMC Vídeo</h2>
+        <p class="muted">
+          Somos um estúdio localizado em São Paulo, especializado em gravações educacionais. Nosso espaço é projetado
+          para apoiar instituições de ensino, professores, coachs e empresas que desejam produzir aulas com excelência.
+        </p>
+        <p class="muted">
+          Nossa estrutura conta com 03 ambientes para gravação: estúdio chroma-key, sala corporativa com cenografia real
+          e estúdio de podcast.
+        </p>
+      </div>
+
+      <div class="grid-3">
+        <div class="feature">
+          <img
+            src="{{ url_for('static', path='img/check.png') }}"
+            alt=""
+            class="feature-icon"
+            loading="lazy"
+          />
+          <div class="feature-title">Cursos EAD e treinamentos online</div>
+          <div class="muted">Produção completa para aulas, trilhas internas e capacitações.</div>
+        </div>
+        <div class="feature">
+          <img
+            src="{{ url_for('static', path='img/check.png') }}"
+            alt=""
+            class="feature-icon"
+            loading="lazy"
+          />
+          <div class="feature-title">Trilhas de aprendizagem e vídeos educacionais</div>
+          <div class="muted">Conteúdos pensados para engajamento e retenção do aluno.</div>
+        </div>
+        <div class="feature">
+          <img
+            src="{{ url_for('static', path='img/check.png') }}"
+            alt=""
+            class="feature-icon"
+            loading="lazy"
+          />
+          <div class="feature-title">Transmissões ao vivo de eventos formativos</div>
+          <div class="muted">Lives, webinars e encontros formativos em tempo real.</div>
+        </div>
+        <div class="feature">
+          <img
+            src="{{ url_for('static', path='img/check.png') }}"
+            alt=""
+            class="feature-icon"
+            loading="lazy"
+          />
+          <div class="feature-title">Conteúdo para plataformas digitais de ensino</div>
+          <div class="muted">Vídeos otimizados para LMS e plataformas EAD.</div>
+        </div>
+      </div>
+
+      <div class="highlight-cta">
+        <button
+          class="btn btn-primary btn-block btn-primary--inverse"
+          type="button"
+          data-modal-open="lead-modal"
+        >
+          QUERO GRAVAR
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      var section = document.querySelector(".section-highlight");
+      if (!section) return;
+
+      function showCards() {
+        section.classList.add("section-highlight--visible");
+      }
+
+      if (!("IntersectionObserver" in window)) {
+        showCards();
+        return;
+      }
+
+      var io = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              showCards();
+              io.unobserve(entry.target);
+            }
+          });
+        },
+        { rootMargin: "0px 0px -8% 0px", threshold: 0.08 }
+      );
+      io.observe(section);
+    })();
+  </script>
+
+  <noscript>
+    <style>
+      .section-highlight .grid-3 .feature {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+      .section-solucoes .grid-solucoes .solucao-card {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    </style>
+  </noscript>
+
+  {% if carousel_images %}
+    <section class="section section-carousel">
+      <div class="container">
+        <div class="section-head section-head-center">
+          <h2>Veja nosso estúdio em ação</h2>
+          <p class="muted">Alguns registros de gravações, bastidores e ambientes da CMC Vídeo.</p>
+        </div>
+
+        <div class="carousel" aria-label="Galeria de imagens do estúdio">
+          <div class="carousel-track" data-carousel-track>
+            {% for img in carousel_images %}
+              <figure class="carousel-item">
+                <img
+                  src="{{ url_for('static', path=img) }}"
+                  alt="Imagem do estúdio CMC Vídeo"
+                  loading="lazy"
+                />
+              </figure>
+            {% endfor %}
+          </div>
+          <div class="studio-carousel__controls">
+            <button class="carousel-nav prev" type="button" aria-label="Imagem anterior" data-carousel-prev>
+              ‹
+            </button>
+            <button class="carousel-nav next" type="button" aria-label="Próxima imagem" data-carousel-next>
+              ›
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <script>
+    (function () {
+      const track = document.querySelector("[data-carousel-track]");
+      if (!track) return;
+
+      const items = Array.from(track.querySelectorAll(".carousel-item"));
+      const prev = document.querySelector("[data-carousel-prev]");
+      const next = document.querySelector("[data-carousel-next]");
+      if (prev && next && items.length) {
+        prev.style.display = "flex";
+        next.style.display = "flex";
+
+        function step() {
+          const first = items[0];
+          if (!first) return 0;
+          const gap = 12; // aproximado do CSS
+          return first.getBoundingClientRect().width + gap;
+        }
+
+        function move(dir) {
+          const delta = step() * dir;
+          const target = track.scrollLeft + delta;
+          const max = track.scrollWidth - track.clientWidth;
+          const clamped = Math.min(Math.max(target, 0), max);
+          track.scrollTo({ left: clamped, behavior: "smooth" });
+        }
+
+        prev.addEventListener("click", () => move(-1));
+        next.addEventListener("click", () => move(1));
+      }
+    })();
+  </script>
+
+  <section class="section section-solucoes" id="solucoes-producao">
+    <div class="container">
+      <div class="section-head section-head-wide">
+        <h2>Soluções completas para sua produção audiovisual</h2>
+      </div>
+
+      <div class="grid-solucoes">
+        <article class="solucao-card">
+          <div class="solucao-card-media">
+            <img
+              src="{{ url_for('static', path='img/CHROMA-KEY.png') }}"
+              alt="Estúdio 01 Chroma Key"
+              loading="lazy"
+            />
+          </div>
+          <div class="solucao-card-body">
+            <h3 class="solucao-card-title">Estúdio 01 Chroma Key</h3>
+            <p class="muted">
+              Grave suas aulas com qualidade profissional em nosso estúdio preparado para cursos online, EAD e treinamentos corporativos.
+            </p>
+            <p class="muted">
+              Utilizamos chroma key profissional, iluminação de estúdio e captação de áudio dedicada para produzir aulas claras, didáticas e prontas para plataformas de ensino.
+            </p>
+            <p class="solucao-cta">
+              <button class="link" type="button" data-modal-open="lead-modal">
+                Veja exemplos reais de gravações realizadas neste estúdio
+              </button>
+            </p>
+            <div class="solucao-card-cta-end">
+              <button class="btn btn-primary btn-block" type="button" data-modal-open="lead-modal">Saiba mais</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="solucao-card">
+          <div class="solucao-card-media">
+            <img
+              src="{{ url_for('static', path='img/cenarios-reais.png') }}"
+              alt="Estúdio 02 Cenários reais"
+              loading="lazy"
+            />
+          </div>
+          <div class="solucao-card-body">
+            <h3 class="solucao-card-title">Estúdio 02 Cenários reais</h3>
+            <p class="muted">
+              Ambiente profissional para gravação de vídeos institucionais, treinamentos, conteúdos educacionais e apresentações para plataformas LMS.
+            </p>
+            <p class="muted">
+              Cenários versáteis, iluminação de estúdio e suporte técnico para produzir vídeos com qualidade e impacto.
+            </p>
+            <div class="solucao-card-cta-end">
+              <button class="btn btn-primary btn-block" type="button" data-modal-open="lead-modal">Saiba mais</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="solucao-card">
+          <div class="solucao-card-media solucao-card-media--podcast">
+            <img
+              src="{{ url_for('static', path='img/podcast.jpg') }}"
+              alt="Estúdio 03 Podcast"
+              loading="lazy"
+            />
+          </div>
+          <div class="solucao-card-body">
+            <h3 class="solucao-card-title">Estúdio 03 Podcast</h3>
+            <p class="muted">
+              Ambiente profissional para gravação de podcasts, entrevistas e conteúdos educacionais.
+            </p>
+            <p class="muted">
+              Estrutura completa com captação de áudio e vídeo, iluminação adequada e suporte técnico para garantir um resultado profissional.
+            </p>
+            <div class="solucao-card-cta-end">
+              <button class="btn btn-primary btn-block" type="button" data-modal-open="lead-modal">Saiba mais</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="solucao-card">
+          <div class="solucao-card-media">
+            <img
+              src="{{ url_for('static', path='img/transmissao-ao-vivo.jpg') }}"
+              alt="Transmissão ao vivo"
+              loading="lazy"
+            />
+          </div>
+          <div class="solucao-card-body">
+            <h3 class="solucao-card-title">Transmissão ao vivo</h3>
+            <p class="muted">
+              Realize webinars, lives educacionais e eventos online com qualidade profissional.
+            </p>
+            <p class="muted">
+              Estrutura completa de áudio, vídeo e operação técnica para garantir transmissões estáveis e seguras.
+            </p>
+            <p class="solucao-cta">
+              <button class="link" type="button" data-modal-open="lead-modal">
+                Assista exemplos de transmissões realizadas pela CMC Vídeo
+              </button>
+            </p>
+            <div class="solucao-card-cta-end">
+              <button class="btn btn-primary btn-block" type="button" data-modal-open="lead-modal">Saiba mais</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-apoio" id="apoio-ensino">
+    <div class="apoio-bg" data-parallax-bg></div>
+    <div class="apoio-overlay"></div>
+
+    <div class="container apoio-content">
+      <div class="section-head section-head-center">
+        <h2>Mais que estrutura: apoio para você ensinar com qualidade</h2>
+      </div>
+
+      <div class="apoio-grid">
+        <article class="apoio-item">
+          <div class="apoio-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="img" aria-label="">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M7 12.4l3.1 3.1L17.2 8.5"></path>
+            </svg>
+          </div>
+          <p>Ambientes integrados e preparados para gravação de aulas</p>
+        </article>
+
+        <article class="apoio-item">
+          <div class="apoio-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="img" aria-label="">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M7 12.4l3.1 3.1L17.2 8.5"></path>
+            </svg>
+          </div>
+          <p>Espaços para reuniões pedagógicas e preparação de conteúdo</p>
+        </article>
+
+        <article class="apoio-item">
+          <div class="apoio-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="img" aria-label="">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M7 12.4l3.1 3.1L17.2 8.5"></path>
+            </svg>
+          </div>
+          <p>Cenários reais e chroma key</p>
+        </article>
+
+        <article class="apoio-item">
+          <div class="apoio-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="img" aria-label="">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M7 12.4l3.1 3.1L17.2 8.5"></path>
+            </svg>
+          </div>
+          <p>Tecnologia de ponta e equipe técnica especializada</p>
+        </article>
+      </div>
+
+      <div class="apoio-cta">
+        <button class="btn btn-primary btn-block" type="button" data-modal-open="lead-modal">Quero impulsionar meus vídeos</button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      const bg = document.querySelector("[data-parallax-bg]");
+      const section = document.querySelector(".section-apoio");
+      if (!bg || !section) return;
+
+      var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var maxPx = reduceMotion ? 28 : 140;
+      var pctRange = reduceMotion ? 5 : 14;
+      var scale = "1.1";
+
+      var ticking = false;
+
+      function updateParallax() {
+        var rect = section.getBoundingClientRect();
+        var viewportH = window.innerHeight || 1;
+        var denom = viewportH + rect.height;
+        if (denom < 1) denom = 1;
+        var progress = (viewportH - rect.top) / denom;
+        var t = Math.max(-maxPx, Math.min(maxPx, (progress - 0.5) * (maxPx * 2)));
+        var pctY = 32 + (progress - 0.5) * pctRange;
+        bg.style.transform =
+          "translate3d(0," + t.toFixed(2) + "px,0) scale(" + scale + ")";
+        bg.style.backgroundPosition = "62% " + pctY.toFixed(2) + "%";
+      }
+
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+          updateParallax();
+          ticking = false;
+        });
+      }
+
+      updateParallax();
+      requestAnimationFrame(updateParallax);
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll);
+      window.addEventListener("load", updateParallax);
+    })();
+  </script>
+
+  <script>
+    (function () {
+      var section = document.querySelector(".section-solucoes");
+      if (!section) return;
+
+      function showSolucoesCards() {
+        section.classList.add("section-solucoes--visible");
+      }
+
+      if (!("IntersectionObserver" in window)) {
+        showSolucoesCards();
+        return;
+      }
+
+      var io = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              showSolucoesCards();
+              io.unobserve(entry.target);
+            }
+          });
+        },
+        { rootMargin: "0px 0px -8% 0px", threshold: 0.08 }
+      );
+      io.observe(section);
+    })();
+  </script>
+
+  <section class="section section-depoimentos" id="depoimentos">
+    <div class="container">
+      <div class="section-head section-head-center depoimentos-head">
+        <h2>Deixe seu conteúdo ainda mais profissional</h2>
+        <p class="depoimentos-lead">
+          Quer lançar um curso, melhorar a entrega das suas aulas ou transformar sua presença digital na educação? A
+          CMC Vídeo é sua parceira ideal.
+        </p>
+      </div>
+
+      <div class="depoimentos-carousel" aria-label="Depoimentos de clientes">
+        <div class="carousel-track depoimentos-track" data-depoimentos-track>
+        <article class="depoimento-card" data-depoimento-card>
+          <div class="depoimento-card__body depoimento-gmn">
+            <div class="depoimento-stars" role="img" aria-label="Avaliação: 5 de 5 estrelas">
+              <svg class="depoimento-star" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                />
+              </svg>
+              <svg class="depoimento-star" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                />
+              </svg>
+              <svg class="depoimento-star" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                />
+              </svg>
+              <svg class="depoimento-star" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                />
+              </svg>
+              <svg class="depoimento-star" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                />
+              </svg>
+            </div>
+            <blockquote class="depoimento-texto">
+              <p>
+                Nesses 5 anos de parceria, já gravamos aulas, fizemos apresentações ao vivo, em estúdio e externas.
+              </p>
+              <p>
+                Em SP e em outros Estados, sempre sob o acompanhamento cuidadoso da equipe o tempo todo, desde a
+                filmagem, edição e revisão.
+              </p>
+              <p>
+                A CMC alia experiência com agilidade, excelentes estrutura e equipe, localização privilegiada no coração
+                de SP, com fácil acesso a partir de qualquer região. O comprometimento com o resultado e a satisfação
+                final dos clientes é, sem dúvida, seu diferencial.
+              </p>
+            </blockquote>
+            <footer class="depoimento-footer">
+              <p class="depoimento-autor">Karina Ribeiro</p>
+            </footer>
+          </div>
+        </article>
+
+        <article class="depoimento-card" data-depoimento-card>
+          <div class="depoimento-card__body depoimento-gmn">
+            <div class="depoimento-stars" role="img" aria-label="Avaliação: 5 de 5 estrelas">
+              <svg class="depoimento-star" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                />
+              </svg>
+              <svg class="depoimento-star" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                />
+              </svg>
+              <svg class="depoimento-star" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                />
+              </svg>
+              <svg class="depoimento-star" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                />
+              </svg>
+              <svg class="depoimento-star" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                />
+              </svg>
+            </div>
+            <blockquote class="depoimento-texto">
+              <p>
+                Gravo as minhas aulas online do G7 Jurídico pela CMC Vídeo. A experiência é sempre sensacional. As aulas
+                são muito bem montadas, em uma velocidade incrível. Pode-se dizer que a CMC tem contribuído para um novo
+                modo de conceber aulas jurídicas online.
+              </p>
+              <p>
+                A estrutura da CMC é excelente. Tanto no pré como no pós aula o atendimento é impecável. O estúdio é bem
+                localizado, contando com camarim, sala de café e sala de descanso. Recomendo fortemente.
+              </p>
+            </blockquote>
+            <footer class="depoimento-footer">
+              <p class="depoimento-autor">Flavio Tartuce</p>
+            </footer>
+          </div>
+        </article>
+
+        <article class="depoimento-card" data-depoimento-card>
+          <div class="depoimento-card__body depoimento-gmn">
+            <div class="depoimento-stars" role="img" aria-label="Avaliação: 5 de 5 estrelas">
+              <svg class="depoimento-star" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                />
+              </svg>
+              <svg class="depoimento-star" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                />
+              </svg>
+              <svg class="depoimento-star" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                />
+              </svg>
+              <svg class="depoimento-star" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                />
+              </svg>
+              <svg class="depoimento-star" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                />
+              </svg>
+            </div>
+            <blockquote class="depoimento-texto">
+              <p>
+                Há 3 anos utilizamos as instalações e os serviços da CMC Vídeo para efetuar o lançamento anual de nossas
+                coleções de brindes e estamos super satisfeitos! Ótimas instalações, recursos, atendimento e trabalho final.
+              </p>
+            </blockquote>
+            <footer class="depoimento-footer">
+              <p class="depoimento-autor">Denise Nogueira</p>
+            </footer>
+          </div>
+        </article>
+        </div>
+        <div class="depoimentos-carousel__controls">
+          <button
+            class="carousel-nav prev depoimentos-carousel__nav"
+            type="button"
+            aria-label="Depoimento anterior"
+            data-depoimentos-prev
+          >
+            ‹
+          </button>
+          <button
+            class="carousel-nav next depoimentos-carousel__nav"
+            type="button"
+            aria-label="Próximo depoimento"
+            data-depoimentos-next
+          >
+            ›
+          </button>
+        </div>
+      </div>
+
+      <div class="depoimentos-cta">
+        <button class="btn btn-primary btn-block btn-primary--inverse" type="button" data-modal-open="lead-modal">
+          Quero produzir meu vídeo
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      var cards = document.querySelectorAll("[data-depoimento-card]");
+      if (!cards.length) return;
+      function revealCard(card) {
+        card.classList.add("depoimento-card--visible");
+      }
+      if (!("IntersectionObserver" in window)) {
+        cards.forEach(function (c) {
+          revealCard(c);
+        });
+        return;
+      }
+      var io = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              revealCard(entry.target);
+              io.unobserve(entry.target);
+            }
+          });
+        },
+        { rootMargin: "0px 0px -8% 0px", threshold: 0.12 }
+      );
+      cards.forEach(function (c) {
+        io.observe(c);
+      });
+    })();
+  </script>
+  <script>
+    (function () {
+      var track = document.querySelector("[data-depoimentos-track]");
+      if (!track) return;
+
+      var items = Array.from(track.querySelectorAll(".depoimento-card"));
+      var prev = document.querySelector("[data-depoimentos-prev]");
+      var next = document.querySelector("[data-depoimentos-next]");
+      if (!prev || !next || !items.length) return;
+
+      function step() {
+        var first = items[0];
+        if (!first) return 0;
+        var gap = 12;
+        return first.getBoundingClientRect().width + gap;
+      }
+
+      function move(dir) {
+        var delta = step() * dir;
+        var target = track.scrollLeft + delta;
+        var max = track.scrollWidth - track.clientWidth;
+        var clamped = Math.min(Math.max(target, 0), max);
+        track.scrollTo({ left: clamped, behavior: "smooth" });
+      }
+
+      prev.addEventListener("click", function () {
+        move(-1);
+      });
+      next.addEventListener("click", function () {
+        move(1);
+      });
+    })();
+  </script>
+{% endblock %}
