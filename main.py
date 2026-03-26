@@ -1,6 +1,4 @@
-import os
 from pathlib import Path
-import socket
 import sqlite3
 from typing import List
 
@@ -14,6 +12,7 @@ DB_PATH = BASE_DIR / "app.db"
 
 
 def init_db() -> None:
+    """Cria/atualiza o SQLite local (`app.db`). Todo envio do formulário de conversão é persistido aqui primeiro."""
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
         cursor.execute(
@@ -23,17 +22,21 @@ def init_db() -> None:
                 name TEXT NOT NULL,
                 phone TEXT,
                 email TEXT NOT NULL,
-                service_type TEXT
+                service_type TEXT,
+                created_at TEXT NOT NULL DEFAULT (datetime('now', 'localtime'))
             )
             """
         )
-        # Migração simples se a tabela já existir sem as novas colunas
         cursor.execute("PRAGMA table_info(forms)")
         existing_cols = {row[1] for row in cursor.fetchall()}
         if "phone" not in existing_cols:
             cursor.execute("ALTER TABLE forms ADD COLUMN phone TEXT")
         if "service_type" not in existing_cols:
             cursor.execute("ALTER TABLE forms ADD COLUMN service_type TEXT")
+        if "created_at" not in existing_cols:
+            cursor.execute(
+                "ALTER TABLE forms ADD COLUMN created_at TEXT NOT NULL DEFAULT (datetime('now', 'localtime'))"
+            )
         conn.commit()
 
 
@@ -45,20 +48,29 @@ templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 app.mount("/static", StaticFiles(directory=str(BASE_DIR / "static")), name="static")
 
 
+def _list_static_images(subdir: str) -> List[str]:
+    out: List[str] = []
+    d = BASE_DIR / "static" / subdir
+    if not d.is_dir():
+        return out
+    exts = {".jpg", ".jpeg", ".png", ".webp", ".svg"}
+    for p in sorted(d.iterdir()):
+        if p.is_file() and p.suffix.lower() in exts:
+            out.append(f"{subdir}/{p.name}")
+    return out
+
+
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
-    carousel_dir = BASE_DIR / "static" / "carrossel"
-    carousel_images: List[str] = []
-    if carousel_dir.exists():
-        for img_path in sorted(carousel_dir.iterdir()):
-            if img_path.suffix.lower() in {".jpg", ".jpeg", ".png", ".webp"}:
-                carousel_images.append(f"carrossel/{img_path.name}")
+    carousel_images = _list_static_images("carrossel")
+    clientes_logos = _list_static_images("clientes")
 
     return templates.TemplateResponse(
         "index.html",
         {
             "request": request,
             "carousel_images": carousel_images,
+            "clientes_logos": clientes_logos,
         },
     )
 
@@ -75,11 +87,15 @@ async def form_post(
     email: str = Form(...),
     service_type: str = Form(...),
 ):
+    # Persistência principal: sempre gravar no SQLite antes de qualquer outra ação futura (e-mail, CRM, etc.)
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
         cursor.execute(
-            "INSERT INTO forms (name, phone, email, service_type) VALUES (?, ?, ?, ?)",
-            (name, phone, email, service_type),
+            """
+            INSERT INTO forms (name, phone, email, service_type, created_at)
+            VALUES (?, ?, ?, ?, datetime('now', 'localtime'))
+            """,
+            (name.strip(), phone.strip(), email.strip(), service_type),
         )
         conn.commit()
 
@@ -91,50 +107,7 @@ async def health() -> HTMLResponse:
     return HTMLResponse("ok")
 
 
-def _try_bind_port(host: str, port: int) -> bool:
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        try:
-            s.bind((host, port))
-            return True
-        except OSError:
-            return False
-
-
-def _find_free_port(host: str = "127.0.0.1", start: int = 8765, attempts: int = 50) -> int:
-    """Primeira porta livre a partir de `start`.
-
-    Padrão 8765 (não 8001): em alguns PCs outro programa usa 8001 e o navegador recebe
-    “invalid response” mesmo com uvicorn em outro lugar — evitar 8001 como padrão.
-    """
-    for port in range(start, start + attempts):
-        if _try_bind_port(host, port):
-            return port
-    raise RuntimeError(f"Nenhuma porta livre entre {start} e {start + attempts - 1}")
-
-
-def _resolve_dev_port() -> int:
-    """PORT ou CMC_PORT força a porta; senão usa a primeira livre a partir de 8765."""
-    raw = (os.environ.get("PORT") or os.environ.get("CMC_PORT") or "").strip()
-    if raw.isdigit():
-        p = int(raw)
-        if _try_bind_port("127.0.0.1", p):
-            return p
-    return _find_free_port()
-
-
-def run_dev() -> None:
-    """Único jeito correto de subir o servidor local: escolhe porta livre (não fixa 8001)."""
+if __name__ == "__main__":
     import uvicorn
 
-    port = _resolve_dev_port()
-    print("\n" + "=" * 50)
-    print("  Abra esta URL com http:// (não https://):")
-    print(f"  http://127.0.0.1:{port}/")
-    print(f"  http://localhost:{port}/")
-    print("=" * 50 + "\n")
-    uvicorn.run("main:app", host="127.0.0.1", port=port, reload=True)
-
-
-if __name__ == "__main__":
-    run_dev()
+    uvicorn.run("main:app", host="127.0.0.1", port=8001, reload=True)

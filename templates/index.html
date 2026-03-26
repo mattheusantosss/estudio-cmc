@@ -716,6 +716,65 @@
     </div>
   </section>
 
+  {% if clientes_logos %}
+    <section class="section section-clientes" id="clientes" aria-label="Marcas que confiam na CMC Vídeo">
+      <div class="container">
+        <div class="section-head section-head-center section-clientes__head">
+          <h2>Quem confia na CMC Vídeo</h2>
+        </div>
+      </div>
+      <div class="clientes-marquee-wrap">
+        <div class="clientes-marquee" role="presentation">
+          <div class="clientes-marquee__track">
+            {% for img in clientes_logos %}
+              <div class="clientes-marquee__item">
+                <img
+                  src="{{ url_for('static', path=img) }}"
+                  alt=""
+                  {% if img.endswith('sony.png') %}class="clientes-marquee__img--light"{% endif %}
+                  loading="lazy"
+                  decoding="async"
+                  width="180"
+                  height="80"
+                />
+              </div>
+            {% endfor %}
+            {% for img in clientes_logos %}
+              <div class="clientes-marquee__item" aria-hidden="true">
+                <img
+                  src="{{ url_for('static', path=img) }}"
+                  alt=""
+                  {% if img.endswith('sony.png') %}class="clientes-marquee__img--light"{% endif %}
+                  loading="lazy"
+                  decoding="async"
+                  width="180"
+                  height="80"
+                />
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <section class="section section-vida-conteudo" id="vida-conteudo" aria-label="Vídeos estratégicos para o seu conteúdo">
+    <div class="container">
+      <div class="section-head section-head-center section-vida-conteudo__head">
+        <h2>Dê vida ao seu conteúdo com vídeos estratégicos.</h2>
+        <p class="section-vida-conteudo__lead">
+          Grave suas aulas, podcasts e vídeos para as redes sociais com qualidade de estúdio, estrutura profissional e uma
+          equipe que domina o universo do conteúdo digital.
+        </p>
+      </div>
+      <div class="section-vida-conteudo__cta">
+        <button class="btn btn-primary btn-block btn-primary--inverse" type="button" data-modal-open="lead-modal">
+          Solicite seu orçamento
+        </button>
+      </div>
+    </div>
+  </section>
+
   <script>
     (function () {
       var cards = document.querySelectorAll("[data-depoimento-card]");
